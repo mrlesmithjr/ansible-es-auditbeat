@@ -1,6 +1,9 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    # Defines whether or not auditbeat is configured
+    es_auditbeat_config: true
   tasks:
     - name: Include ansible-es-auditbeat
       include_role:

@@ -1,0 +1,11 @@
+---
+- name: config | configuring auditbeat
+  template:
+    src: etc/auditbeat/auditbeat.yml.j2
+    dest: /etc/auditbeat/auditbeat.yml
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify:
+    - restart auditbeat
+  become: true
