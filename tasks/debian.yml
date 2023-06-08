@@ -1,6 +1,6 @@
 ---
 - name: debian | Installing Pre-Reqs
-  apt:
+  ansible.builtin.apt:
     name:
       - apt-transport-https
       - gnupg
@@ -10,25 +10,26 @@
   until: result is successful
 
 - name: debian | Copying Elasticsearch GPG Key
-  copy:
+  ansible.builtin.copy:
     src: GPG-KEY-elasticsearch
     dest: /tmp/GPG-KEY-elasticsearch
+    mode: u=rw,g=r,o=r
 
 - name: debian | Adding Elasticsearch GPG Key
-  apt_key:
+  ansible.builtin.apt_key:
     file: /tmp/GPG-KEY-elasticsearch
     state: present
   become: true
 
 - name: debian | adding auditbeat repo
-  apt_repository:
-    repo: "{{ 'deb '+es_auditbeat_repo_url+'/'+es_auditbeat_major_ver+'/apt stable main' }}"
+  ansible.builtin.apt_repository:
+    repo: "{{ 'deb ' + es_auditbeat_repo_url + '/' + es_auditbeat_major_ver + '/apt stable main' }}"
     state: present
   become: true
 
 - name: debian | Installing auditbeat {{ es_auditbeat_minor_version }}
-  apt:
-    name: "{{ 'auditbeat='+es_auditbeat_minor_version|string }}"
+  ansible.builtin.apt:
+    name: "{{ 'auditbeat=' + es_auditbeat_minor_version | string }}"
     state: present
   become: true
   register: result

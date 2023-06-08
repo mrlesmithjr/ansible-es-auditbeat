@@ -1,29 +1,30 @@
 ---
 - name: redhat | Copying Elasticsearch GPG Key
-  copy:
+  ansible.builtin.copy:
     src: GPG-KEY-elasticsearch
     dest: /tmp/GPG-KEY-elasticsearch
+    mode: u=rw,g=r,o=r
 
 - name: redhat | Adding Elasticsearch GPG Key
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: /tmp/GPG-KEY-elasticsearch
     state: present
   become: true
 
 - name: redhat | Adding auditbeat Repo
-  yum_repository:
-    baseurl: "{{ es_auditbeat_repo_url+'/'+es_auditbeat_major_ver+'/yum' }}"
+  ansible.builtin.yum_repository:
+    baseurl: "{{ es_auditbeat_repo_url + '/' + es_auditbeat_major_ver + '/yum' }}"
     description: "auditbeat repository for {{ es_auditbeat_major_ver }} packages"
     enabled: true
     gpgcheck: true
     gpgkey: "{{ es_auditbeat_repo_key }}"
-    name: "{{ 'auditbeat-'+es_auditbeat_major_ver }}"
+    name: "{{ 'auditbeat-' + es_auditbeat_major_ver }}"
     state: present
   become: true
 
 - name: redhat | Installing auditbeat
-  package:
-    name: "{{ 'auditbeat-'+es_auditbeat_minor_version|string }}"
+  ansible.builtin.package:
+    name: "{{ 'auditbeat-' + es_auditbeat_minor_version | string }}"
     state: present
   become: true
   register: result

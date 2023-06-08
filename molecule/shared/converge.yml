@@ -6,5 +6,5 @@
     es_auditbeat_config: true
   tasks:
     - name: Include ansible-es-auditbeat
-      include_role:
+      ansible.builtin.include_role:
         name: ansible-es-auditbeat

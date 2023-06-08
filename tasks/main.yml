@@ -1,12 +1,16 @@
 ---
 # tasks file for ansible-es-auditbeat
-- include_tasks: debian.yml
+- name: Debian related tasks
+  ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
 
-- include_tasks: redhat.yml
+- name: RHEL related tasks
+  ansible.builtin.include_tasks: redhat.yml
   when: ansible_os_family == "RedHat"
 
-- include_tasks: config.yml
+- name: Configure Audit Beat
+  ansible.builtin.include_tasks: config.yml
   when: es_auditbeat_config|bool
 
-- include_tasks: service.yml
+- name: Manage Audit Beat service
+  ansible.builtin.include_tasks: service.yml
