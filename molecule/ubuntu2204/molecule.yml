@@ -22,10 +22,18 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     cgroupns_mode: host
     # groups: []
+    capabilities:
+      # - SYS_ADMIN
+      - AUDIT_CONTROL
+      - AUDIT_READ
+    # pid_mode: host
 provisioner:
   name: ansible
   playbooks:
     converge: ../shared/converge.yml
     prepare: ../shared/prepare.yml
+  config_options:
+    defaults:
+      remote_tmp: /tmp
 verifier:
   name: ansible

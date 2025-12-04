@@ -15,7 +15,7 @@
       heap_size: "{{ (ansible_memtotal_mb * elasticsearch_heap_size_multiplier)|round|int }}m"
 
       home_dir: /usr/share/elasticsearch
-      listen_interface: "{{ ansible_default_ipv4.interface }}"
+      listen_interface: lo
       log_dir: /var/log/elasticsearch
       # max_locked_memory: unlimited
       # max_map_count: 262144
